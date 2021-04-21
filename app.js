@@ -12,14 +12,7 @@ const path=require('path');
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
   app.set('port', (process.env.PORT || 8081))
-if (process.env.NODE_ENV === 'production') {
-    // Set static folder
-    app.use(express.static('client/build'));
-  
-    app.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
-  }
+
  
 app.use(cors())
  
@@ -36,7 +29,7 @@ app.use(function (req, res){
  
 // Mongo DB Connection
 const mongoose =require('mongoose')
-mongoose.connect('mongodb+srv://cdb35:cdb35@cluster0.ytb4d.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true,useUnifiedTopology: true})
+mongoose.connect('mongodb+srv://cdb35:cdb35@cluster0.ytb4d.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true})
  
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
@@ -45,6 +38,14 @@ db.once('open', function () {
  
     app.listen(app.get('port'), function () {
         console.log('API Server Listening on port ' + app.get('port') + '!')
+     if (process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static('client/build'));
+  
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+  }
     })
   
 
