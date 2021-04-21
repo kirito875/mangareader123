@@ -12,6 +12,7 @@ const path=require('path');
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
   app.set('port', (process.env.PORT || 8081))
+
     if (process.env.NODE_ENV === 'production') {
     // Set static folder
     app.use(express.static('client/build'));
@@ -24,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
  
 app.use('/api', api)
-
+ app.use(express.static('static'))
  
 app.use(morgan('dev'))
  
