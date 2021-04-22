@@ -71,8 +71,8 @@ module.exports = function (router){
         })
     })
     
-     router.get('/addcart',function(req,res){
-        Standupcart.find({},(err,stand)=>{
+     router.get('/addcart',async function(req,res){
+       await Standupcart.find({},(err,stand)=>{
             if(err){
                 res.json({success:false, message:err});
             }
